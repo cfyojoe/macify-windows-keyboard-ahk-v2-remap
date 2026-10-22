@@ -8,9 +8,13 @@ SendMode "Input"
 A_MenuMaskKey := "vkFF"  ; Complete protection against Start Menu popups
 
 ; Ensure administrative privileges for elevated apps (Task Manager, CMD, etc.)
+; Wrapped in try so a declined UAC prompt leaves the script running unelevated
+; instead of crashing with an error dialog.
 if (!A_IsAdmin) {
-    Run('*RunAs "' A_ScriptFullPath '"')
-    ExitApp()
+    try {
+        Run('*RunAs "' A_ScriptFullPath '"')
+        ExitApp()
+    }
 }
 
 ; ============================================================
@@ -36,14 +40,29 @@ if (!A_IsAdmin) {
 ; ============================================================
 ; WINDOW SWITCHING (Physical Win + Tab -> Native Alt-Tab)
 ; Maps your thumb-adjacent LCtrl + Tab to native window switching.
-; Simulates Alt-Tab to bypass the strict "exactly one modifier" restriction of the native AltTab engine.
+;
+; WHY THE "*" PREFIX:
+; After the first Tab, Alt is held down artificially by Send. A plain "<^Tab"
+; hotkey only fires when NO extra modifiers are down, so the second Tab press
+; did not match the hotkey at all. Windows then saw raw Ctrl+Alt+Tab, which
+; opens the sticky task-view switcher instead of cycling. "*" makes the hotkey
+; fire even while Alt (or Shift) is already down, so every Tab press cycles.
+;
+; Send (non-Blind) temporarily releases the physically held LCtrl before
+; sending Tab, so Windows only ever sees Alt+Tab, never Ctrl+Alt+Tab.
 ; ============================================================
-<^Tab::Send "{Alt Down}{Tab}"
-+<^Tab::Send "{Alt Down}+{Tab}"
+*<^Tab:: {
+    if GetKeyState("Shift", "P")
+        Send "{Alt Down}+{Tab}"
+    else
+        Send "{Alt Down}{Tab}"
+}
 
-; Releases Alt when you release the physical LCtrl key, even if Shift is still held down
+; Releases Alt when you release the physical LCtrl key, even if Shift is still
+; held down. Only releases Alt that WE put down artificially: if the user is
+; physically holding Option (LAlt) for another chord, leave it alone.
 ~*LCtrl Up:: {
-    if GetKeyState("Alt") {
+    if (GetKeyState("Alt") && !GetKeyState("Alt", "P")) {
         Send "{Alt Up}"
     }
 }
@@ -61,7 +80,7 @@ $+<#Tab::Send "^+{Tab}"
 ; Maps your thumb-adjacent LCtrl + Backtick to send Ctrl+Tab.
 ; ============================================================
 ; $<^SC029::Send "^{Tab}"
-; $+<^SC029::Send "^+{Tab}"	
+; $+<^SC029::Send "^+{Tab}"
 
 ; ============================================================
 ; SYSTEM & APPLICATION NAVIGATION (Thumb-LCtrl Modifier: <^)
