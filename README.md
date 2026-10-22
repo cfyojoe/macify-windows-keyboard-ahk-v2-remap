@@ -51,7 +51,7 @@ These are the exact steps I used. Expect about fifteen minutes, including one re
 1. **Install AutoHotkey v2.** Download it from [autohotkey.com](https://www.autohotkey.com/) and pick the v2 installer. The script starts with `#Requires AutoHotkey v2.0` and refuses to run under v1.
 2. **Remap the Windows key with SharpKeys.** Install [SharpKeys](https://github.com/randyrants/sharpkeys), add a mapping that swaps **Left Ctrl ↔ Left Windows**, click *Write to Registry*, and reboot. This is what puts a "Cmd" key next to the spacebar. Details in the next section.
 3. **Swap Fn and Ctrl (Lenovo only).** On a ThinkPad the leftmost key is Fn. [Open Lenovo Vantage](https://www.google.com/search?q=Lenovo+Vantage+or+ThinkPad+BIOS+for+the+Fn+Ctrl+swap) (Device → Input & Accessories → Fn and Ctrl key swap) or the BIOS Config → Keyboard/Mouse page and enable the swap. If you do not have a Lenovo, skip this step.
-4. **Download the script.** Clone this repository or download `macify.ahk`. Prefer a single file with no clone? Grab it from [the gist](https://gist.github.com/cfyojoe/49f31900e7f401b9abb0a9f1f59f492a).
+4. **Download the script.** Clone this repository or download `macify.ahk`. Prefer a single file with no clone? Grab it from [the gist](https://gist.github.com/cfyojoe/e52fe1dfb046895e0ddbf3bb9926a3f1).
 5. **Run it.** Double-click `macify.ahk`. Approve the one-time UAC prompt so the remaps also work in elevated apps. Declining the prompt still works, but only in normal apps.
 6. **Start it at login.** Press Win+R, enter `shell:startup`, and drop a shortcut to `macify.ahk` in that folder.
 7. **Test it.** Hold the key next to your spacebar and tap Tab. The window switcher should open and keep cycling until you let go.
