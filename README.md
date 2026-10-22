@@ -27,7 +27,6 @@ I built it for one reason: to **allow me to use Mac-style keyboard shortcuts in 
 - [Switchable between Mac Keyboard and PC Keyboard](#switchable-between-mac-keyboard-and-pc-keyboard)
 - [FAQ](#faq)
 - [Compatibility](#compatibility)
-- [Changelog](#changelog)
 
 ---
 
@@ -189,23 +188,6 @@ The shortcut behaviour matches the keyboard conventions that have been stable fr
 - [SharpKeys](https://github.com/randyrants/sharpkeys) 3.9 for the registry-level modifier swap
 - [Lenovo Vantage or ThinkPad BIOS](https://www.google.com/search?q=Lenovo+Vantage+or+ThinkPad+BIOS+for+the+Fn+Ctrl+swap) for the Fn ↔ Ctrl swap
 - [Raycast](https://www.raycast.com/) on the Mac side for the right-⌘ Hyper key (optional, Mac only)
-
----
-
-## Changelog
-
-**2026-10-22**
-
-- Repo description and topics set for GitHub search; README leads with the v2 and Windows 11 Cmd+Tab angle.
-- README rewritten with setup steps, modifier table, mapping descriptions, FAQ, compatibility list, Raycast Hyper key note and the Lenovo Fn/Ctrl swap.
-- Renamed `script-26-05-29` to `macify.ahk` so Windows opens it with AutoHotkey.
-- Fixed Cmd+Tab: after the first Tab, Alt is held artificially and the old `<^Tab` hotkey stopped matching. The second Tab reached Windows as raw Ctrl+Alt+Tab and opened the sticky switcher. The hotkey now uses the `*` wildcard prefix and handles Shift in the handler, so every Tab press cycles.
-- The LCtrl-release handler only releases Alt the script pressed itself, so a physically held Option key is no longer released under you.
-- The run-as-admin relaunch is wrapped in `try`, so declining the UAC prompt no longer crashes the script.
-
-**2026-05-29**
-
-- First public version of the script.
 
 ---
 
