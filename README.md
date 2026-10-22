@@ -1,10 +1,19 @@
-# Macify Windows Keyboard: an AutoHotkey v2 Script for Mac Users on Windows
+# Mac Keyboard Shortcuts on Windows 11 with AutoHotkey v2 (and a real Cmd+Tab fix)
 
-**An AutoHotkey v2 script to remap a Windows keyboard** so it behaves like a Mac. It brings the **essential macOS key combinations to Windows**. **With this AutoHotKey script, you can use most macOS style shortcuts** on a Windows 10 or Windows 11 laptop or desktop: Cmd+Tab to switch windows, Cmd+Q to quit, Cmd+Arrow to jump to the start or end of a line, Option+Backspace to delete a word, and more.
+**An AutoHotkey v2 script to remap a Windows keyboard** so it behaves like a Mac, written for the current AutoHotkey, not the abandoned v1. It brings the **essential macOS key combinations to Windows**, and it solves the one thing every older script gets wrong on Windows 11: Cmd+Tab opens the sticky task view after the second press instead of cycling. This one keeps cycling until you let go.
+
+**With this AutoHotKey script, you can use most macOS style shortcuts** on a Windows 10 or Windows 11 laptop or desktop: Cmd+Tab to switch windows, Cmd+Q to quit, Cmd+Arrow to jump to the start or end of a line, Option+Backspace to delete a word, and more.
+
+What sets it apart from the v1 gists floating around:
+
+- **AutoHotkey v2 only.** Function-style hotkeys, `try` for error handling, no v1 commands. It will not run under v1, by design.
+- **Windows 11 Cmd+Tab that actually cycles.** The script holds Alt across repeated Tab presses and never leaks Ctrl+Alt+Tab, so the sticky switcher never appears.
+- **The whole laptop setup, documented.** SharpKeys registry swap, the Lenovo ThinkPad Fn/Ctrl swap, startup folder, admin relaunch. Not just a script, the full recipe.
+- **Reversible.** Suspend the hotkeys from the tray or undo the SharpKeys swap, and you are back on a stock PC keyboard.
 
 I built it for one reason: to **allow me to use Mac-style keyboard shortcuts in Windows** without retraining twenty years of muscle memory. It was written and tested on a Lenovo ThinkPad P16s, but the mappings work on any keyboard once the modifier keys are in the right places.
 
-> **In short:** [SharpKeys](https://github.com/randyrants/sharpkeys) moves the modifier keys at the registry level, and this **AutoHotkey mac keyboard on Windows** script rewrites the shortcuts on top of that. Together they give you **Windows with a Mac keyboard** feel on ordinary PC hardware, or put a real **Mac keyboard on Windows** with its **macOS keys on Windows** doing what you expect.
+> **In short:** [SharpKeys](https://github.com/randyrants/sharpkeys) moves the modifier keys at the registry level, and this **AutoHotkey mac keyboard on Windows** script rewrites the shortcuts on top of that. Together they give you **Windows with a Mac keyboard** feel on ordinary PC hardware, or put a real **Mac keyboard on Windows** with its **macOS keys on Windows** doing what you expect. It is an **AutoHotKey V2 Script for Mac Users on Windows**, not a v1 leftover.
 
 ---
 
@@ -187,6 +196,7 @@ The shortcut behaviour matches the keyboard conventions that have been stable fr
 
 **2026-10-22**
 
+- Repo description and topics set for GitHub search; README leads with the v2 and Windows 11 Cmd+Tab angle.
 - README rewritten with setup steps, modifier table, mapping descriptions, FAQ, compatibility list, Raycast Hyper key note and the Lenovo Fn/Ctrl swap.
 - Renamed `script-26-05-29` to `macify.ahk` so Windows opens it with AutoHotkey.
 - Fixed Cmd+Tab: after the first Tab, Alt is held artificially and the old `<^Tab` hotkey stopped matching. The second Tab reached Windows as raw Ctrl+Alt+Tab and opened the sticky switcher. The hotkey now uses the `*` wildcard prefix and handles Shift in the handler, so every Tab press cycles.
