@@ -1,10 +1,10 @@
 # Macify Windows Keyboard: an AutoHotkey v2 Script for Mac Users on Windows
 
-**An AutoHotkey v2 script to remap a Windows keyboard** so it behaves like a Mac. **With this AutoHotKey script, you can use most macOS style shortcuts** on a Windows laptop or desktop: Cmd+Tab to switch windows, Cmd+Q to quit, Cmd+Arrow to jump to the start or end of a line, Option+Backspace to delete a word, and more.
+**An AutoHotkey v2 script to remap a Windows keyboard** so it behaves like a Mac. It brings the **essential macOS key combinations to Windows**. **With this AutoHotKey script, you can use most macOS style shortcuts** on a Windows 10 or Windows 11 laptop or desktop: Cmd+Tab to switch windows, Cmd+Q to quit, Cmd+Arrow to jump to the start or end of a line, Option+Backspace to delete a word, and more.
 
 I built it for one reason: to **allow me to use Mac-style keyboard shortcuts in Windows** without retraining twenty years of muscle memory. It was written and tested on a Lenovo ThinkPad P16s, but the mappings work on any keyboard once the modifier keys are in the right places.
 
-> **In short:** [SharpKeys](https://github.com/randyrants/sharpkeys) moves the modifier keys at the registry level, and this **AutoHotkey mac keyboard on Windows** script rewrites the shortcuts on top of that. Together they give you **Windows with a Mac keyboard** feel on ordinary PC hardware.
+> **In short:** [SharpKeys](https://github.com/randyrants/sharpkeys) moves the modifier keys at the registry level, and this **AutoHotkey mac keyboard on Windows** script rewrites the shortcuts on top of that. Together they give you **Windows with a Mac keyboard** feel on ordinary PC hardware, or put a real **Mac keyboard on Windows** with its **macOS keys on Windows** doing what you expect.
 
 ---
 
@@ -17,6 +17,7 @@ I built it for one reason: to **allow me to use Mac-style keyboard shortcuts in 
 - [Full key map](#full-key-map)
 - [Switchable between Mac Keyboard and PC Keyboard](#switchable-between-mac-keyboard-and-pc-keyboard)
 - [FAQ](#faq)
+- [Compatibility](#compatibility)
 - [Changelog](#changelog)
 
 ---
@@ -63,7 +64,7 @@ My ThinkPad P16s layout, left to right, after all the swaps:
 
 Only the left side is swapped. The right-hand Ctrl, Alt and Win keys keep their PC meaning, which is useful as an escape hatch.
 
-**Using an actual Apple keyboard?** You can plug a Mac keyboard into Windows and use the same script. The right ⌘ key is a good candidate for a Hyper key (Ctrl+Alt+Shift+Win pressed together) for your own app-launching shortcuts; that mapping is not part of this script yet.
+**Using an actual Apple keyboard?** You can plug a Mac keyboard into Windows and use the same script. On my Mac I use [Raycast](https://www.raycast.com/), whose *Hyper Key* setting turns the right ⌘ key into Ctrl+Alt+Shift+Cmd pressed together, for app-launching shortcuts. That Hyper key lives in Raycast on the Mac side and is not part of this script; on Windows the right ⌘ stays a plain Win key.
 
 ---
 
@@ -132,6 +133,10 @@ Yes, in two senses. The physical layout (Cmd next to the spacebar, Option beside
 
 Follow the [setup steps](#steps-to-set-up-ahk-v2-for-a-mac-keyboard): install AutoHotkey v2, swap Left Ctrl and Left Win with SharpKeys, reboot, and run `macify.ahk`. The whole process takes about fifteen minutes and is fully reversible.
 
+### Which macOS keys on Windows does it cover?
+
+The ones you reach for all day: Cmd+Tab, Cmd+Q, Cmd+M, Cmd+Shift+Z, Cmd+Arrow and Cmd+Shift+Arrow for line and document navigation, Cmd+Backspace, and Option+Backspace. Copy, paste, undo, save and the rest already work because the swapped Cmd key sends Ctrl. See the [full key map](#full-key-map).
+
 ### Does this replace Microsoft PowerToys Keyboard Manager?
 
 PowerToys can remap individual keys and shortcuts, but it cannot hold Alt down across repeated Tab presses, which is why Cmd+Tab never feels right there. AutoHotkey can, and it also runs inside elevated apps once it has admin rights.
@@ -146,11 +151,43 @@ Press Win+Esc (physical keys) to release every modifier. If the tray icon has va
 
 ---
 
+## Compatibility
+
+Tested on the hardware and software below. Anything newer should work the same, because the script only uses core AutoHotkey v2 features and a standard registry scancode map.
+
+**Windows**
+
+- Windows 11 (22H2 through 25H2), where the Cmd+Tab fix for the sticky task view matters most
+- Windows 10 (21H2 and 22H2)
+- Not supported: Windows 7 or 8, because AutoHotkey v2 requires Windows 10 or later
+
+**AutoHotkey**
+
+- AutoHotkey v2.0 and v2.1. The script declares `#Requires AutoHotkey v2.0` and will not run under v1.1.
+
+**Keyboards**
+
+- Lenovo ThinkPad P16s built-in keyboard (primary test machine), and other ThinkPads with the Fn/Ctrl swap
+- Standard 104-key PC keyboards with SharpKeys moving Left Ctrl and Left Win
+- Apple Magic Keyboard and other Mac keyboards over USB or Bluetooth, with ⌘ already next to the spacebar
+
+**macOS shortcuts emulated**
+
+The shortcut behaviour matches the keyboard conventions that have been stable from OS X through macOS Ventura, Sonoma, Sequoia and Tahoe. If you are coming from any of those releases, your Cmd+Tab, Cmd+Q, Cmd+Arrow and Option+Backspace habits carry over unchanged.
+
+**Tools used**
+
+- [SharpKeys](https://github.com/randyrants/sharpkeys) 3.9 for the registry-level modifier swap
+- Lenovo Vantage or ThinkPad BIOS for the Fn ↔ Ctrl swap
+- [Raycast](https://www.raycast.com/) on the Mac side for the right-⌘ Hyper key (optional, Mac only)
+
+---
+
 ## Changelog
 
 **2026-10-22**
 
-- README rewritten with setup steps, modifier table, mapping descriptions, FAQ and the Lenovo Fn/Ctrl swap.
+- README rewritten with setup steps, modifier table, mapping descriptions, FAQ, compatibility list, Raycast Hyper key note and the Lenovo Fn/Ctrl swap.
 - Renamed `script-26-05-29` to `macify.ahk` so Windows opens it with AutoHotkey.
 - Fixed Cmd+Tab: after the first Tab, Alt is held artificially and the old `<^Tab` hotkey stopped matching. The second Tab reached Windows as raw Ctrl+Alt+Tab and opened the sticky switcher. The hotkey now uses the `*` wildcard prefix and handles Shift in the handler, so every Tab press cycles.
 - The LCtrl-release handler only releases Alt the script pressed itself, so a physically held Option key is no longer released under you.
